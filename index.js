@@ -12,42 +12,23 @@ const rentals = require("./routes/rentals");
 const users = require("./routes/users");
 const auth = require("./routes/auth");
 const error = require("./middleware/error");
-const cors = require('cors');
+const cors = require("cors");
 const app = express();
 
-// const winston = require("winston");
-// require("winston-mongodb");
-
-// const transports = [
-//   new winston.transports.Console(), // Log to console
-//   new winston.transports.File({ filename: "logfile.log" }), // Log to file
-//   new winston.transports.MongoDB({ db: "mongodb://localhost/yourDB" }), // Log to MongoDB
-// ];
-
-// // Create logger
-// const logger = winston.createLogger({
-//   level: "info",
-//   format: winston.format.json(),
-//   transports: transports,
-// });
-
-// module.exports = logger;
 
 if (!config.get("jwtPrivateKey")) {
   logger.error("FATAL ERROR: jwtPrivateKey is not defined.");
   process.exit(1);
 }
 
+const MONGO_URI = process.env.MONGO_URI
 mongoose
 
-  .connect(process.env.MONGO_URL)
+  .connect(MONGO_URI)
   .then(() => console.log("connected to mongodb"))
   .catch((error) => console.log("could not connect to mongodb", error));
 
 app.use(express.json());
-
-
-
 
 app.use(cors());
 app.use("/", home);
@@ -60,6 +41,4 @@ app.use("/api/auth", auth);
 
 app.use(error);
 const port = process.env.PORT || 3000;
-app.listen(port, () => console.log(`listening on port ${port} ...`));
-
-//my index.js
+app.listen(port, () => console.log(`listening on port ${port} ${MONGO_URI} ...`));
