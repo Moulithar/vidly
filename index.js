@@ -30,8 +30,6 @@ const app = express();
 //   transports: transports,
 // });
 
-
-
 // module.exports = logger;
 
 if (!config.get("jwtPrivateKey")) {
@@ -41,8 +39,7 @@ if (!config.get("jwtPrivateKey")) {
 
 mongoose
 
-
-  .connect("mongodb+srv://moulipri:ryuk130298@vidlycluster.qjnengk.mongodb.net/vidly")
+  .connect(process.env.MONGO_URL)
   .then(() => console.log("connected to mongodb"))
   .catch((error) => console.log("could not connect to mongodb", error));
 
