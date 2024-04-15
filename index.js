@@ -12,6 +12,7 @@ const rentals = require("./routes/rentals");
 const users = require("./routes/users");
 const auth = require("./routes/auth");
 const error = require("./middleware/error");
+const cors = require('cors');
 const app = express();
 
 // const winston = require("winston");
@@ -45,6 +46,10 @@ mongoose
 
 app.use(express.json());
 
+
+
+
+app.use(cors());
 app.use("/", home);
 app.use("/api/genres", genres);
 app.use("/api/customers", customers);
